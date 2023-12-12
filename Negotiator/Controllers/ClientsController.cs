@@ -12,47 +12,47 @@ namespace Negotiator.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class ClientsController : ControllerBase
     {
         private readonly NegotiatorContext _context;
 
-        public ProductsController(NegotiatorContext context)
+        public ClientsController(NegotiatorContext context)
         {
             _context = context;
         }
 
-        // GET: api/Products
+        // GET: api/Clients
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Products>>> GetProduct()
+        public async Task<ActionResult<IEnumerable<Client>>> GetClient()
         {
-            return await _context.Product.ToListAsync();
+            return await _context.Client.ToListAsync();
         }
 
-        // GET: api/Products/5
+        // GET: api/Clients/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Products>> GetProducts(int id)
+        public async Task<ActionResult<Client>> GetClient(int id)
         {
-            var products = await _context.Product.FindAsync(id);
+            var client = await _context.Client.FindAsync(id);
 
-            if (products == null)
+            if (client == null)
             {
                 return NotFound();
             }
 
-            return products;
+            return client;
         }
 
-        // PUT: api/Products/5
+        // PUT: api/Clients/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProducts(int id, Products products)
+        public async Task<IActionResult> PutClient(int id, Client client)
         {
-            if (id != products.Id)
+            if (id != client.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(products).State = EntityState.Modified;
+            _context.Entry(client).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace Negotiator.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProductsExists(id))
+                if (!ClientExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace Negotiator.Controllers
             return NoContent();
         }
 
-        // POST: api/Products
+        // POST: api/Clients
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Products>> PostProducts(Products products)
+        public async Task<ActionResult<Client>> PostClient(Client client)
         {
-            _context.Product.Add(products);
+            _context.Client.Add(client);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProducts", new { id = products.Id }, products);
+            return CreatedAtAction("GetClient", new { id = client.Id }, client);
         }
 
-        // DELETE: api/Products/5
+        // DELETE: api/Clients/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProducts(int id)
+        public async Task<IActionResult> DeleteClient(int id)
         {
-            var products = await _context.Product.FindAsync(id);
-            if (products == null)
+            var client = await _context.Client.FindAsync(id);
+            if (client == null)
             {
                 return NotFound();
             }
 
-            _context.Product.Remove(products);
+            _context.Client.Remove(client);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool ProductsExists(int id)
+        private bool ClientExists(int id)
         {
-            return _context.Product.Any(e => e.Id == id);
+            return _context.Client.Any(e => e.Id == id);
         }
     }
 }

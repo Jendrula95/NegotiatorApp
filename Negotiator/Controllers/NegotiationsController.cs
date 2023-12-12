@@ -12,47 +12,47 @@ namespace Negotiator.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class NegotiationsController : ControllerBase
     {
         private readonly NegotiatorContext _context;
 
-        public ProductsController(NegotiatorContext context)
+        public NegotiationsController(NegotiatorContext context)
         {
             _context = context;
         }
 
-        // GET: api/Products
+        // GET: api/Negotiations
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Products>>> GetProduct()
+        public async Task<ActionResult<IEnumerable<Negotiation>>> GetNegotiations()
         {
-            return await _context.Product.ToListAsync();
+            return await _context.Negotiations.ToListAsync();
         }
 
-        // GET: api/Products/5
+        // GET: api/Negotiations/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Products>> GetProducts(int id)
+        public async Task<ActionResult<Negotiation>> GetNegotiation(int id)
         {
-            var products = await _context.Product.FindAsync(id);
+            var negotiation = await _context.Negotiations.FindAsync(id);
 
-            if (products == null)
+            if (negotiation == null)
             {
                 return NotFound();
             }
 
-            return products;
+            return negotiation;
         }
 
-        // PUT: api/Products/5
+        // PUT: api/Negotiations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProducts(int id, Products products)
+        public async Task<IActionResult> PutNegotiation(int id, Negotiation negotiation)
         {
-            if (id != products.Id)
+            if (id != negotiation.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(products).State = EntityState.Modified;
+            _context.Entry(negotiation).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace Negotiator.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProductsExists(id))
+                if (!NegotiationExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace Negotiator.Controllers
             return NoContent();
         }
 
-        // POST: api/Products
+        // POST: api/Negotiations
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Products>> PostProducts(Products products)
+        public async Task<ActionResult<Negotiation>> PostNegotiation(Negotiation negotiation)
         {
-            _context.Product.Add(products);
+            _context.Negotiations.Add(negotiation);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProducts", new { id = products.Id }, products);
+            return CreatedAtAction("GetNegotiation", new { id = negotiation.Id }, negotiation);
         }
 
-        // DELETE: api/Products/5
+        // DELETE: api/Negotiations/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProducts(int id)
+        public async Task<IActionResult> DeleteNegotiation(int id)
         {
-            var products = await _context.Product.FindAsync(id);
-            if (products == null)
+            var negotiation = await _context.Negotiations.FindAsync(id);
+            if (negotiation == null)
             {
                 return NotFound();
             }
 
-            _context.Product.Remove(products);
+            _context.Negotiations.Remove(negotiation);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool ProductsExists(int id)
+        private bool NegotiationExists(int id)
         {
-            return _context.Product.Any(e => e.Id == id);
+            return _context.Negotiations.Any(e => e.Id == id);
         }
     }
 }

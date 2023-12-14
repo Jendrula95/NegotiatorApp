@@ -11,6 +11,7 @@ namespace Negotiator.Models
     }
     public class Negotiation
     {
+ 
         public int Id { get; set; }
         [Range(0, double.MaxValue, ErrorMessage = "Proponowoana cena nie może być niższa niż 0.")]
         public decimal ProposedPrice { get; set; }

@@ -21,7 +21,7 @@ namespace Negotiator.Controllers
             _context = context;
         }
 
-        // GET: api/Negotiations
+      
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Negotiation>>> GetNegotiations()
         {
@@ -51,7 +51,7 @@ namespace Negotiator.Controllers
         }
 
 
-        // GET: api/Negotiations/5
+      
         [HttpGet("{id}")]
         public async Task<ActionResult<Negotiation>> GetNegotiation(int id)
         {
@@ -68,17 +68,42 @@ namespace Negotiator.Controllers
             return negotiation;
         }
 
-        // PUT: api/Negotiations/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+       
         [HttpPut("{id}")]
         public async Task<IActionResult> PutNegotiation(int id, Negotiation negotiation)
         {
-            if (id != negotiation.Id)
+            if (id == negotiation.Id)
             {
                 return BadRequest();
             }
+            var existingNegotiation = await _context.Negotiations.FindAsync(id);
 
-            _context.Entry(negotiation).State = EntityState.Modified;
+            if (existingNegotiation == null)
+            {
+                return NotFound("Negocjacja nie istnieje");
+            }
+            if (negotiation.ProposedPrice > 2 * negotiation.Products.BasedPrice)
+            {
+                negotiation.Status = NegotiationStatus.Rejected;
+               return BadRequest("Proponowana cena przekracza dwukrotność ceny bazowej. Propozycja odrzucona.");
+            }
+
+            if (existingNegotiation.Status == NegotiationStatus.Accepted)
+            {
+                return BadRequest("Negocjacja została już zaakceptowana i nie może być edytowana.");
+            }
+     
+            if (existingNegotiation.Attempts <= 0)
+            {
+                return BadRequest("Maksymalna liczba prób osiągnięta.");
+            }
+
+         
+            existingNegotiation.ProposedPrice = negotiation.ProposedPrice;
+            existingNegotiation.Status = negotiation.Status;
+            existingNegotiation.Attempts--;
+
+            _context.Entry(existingNegotiation).State = EntityState.Modified;
 
             try
             {
@@ -99,19 +124,18 @@ namespace Negotiator.Controllers
             return NoContent();
         }
 
-        // POST: api/Negotiations
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Negotiation>> PostNegotiation(Negotiation negotiation)
         {
+           
+        
+
             _context.Negotiations.Add(negotiation);
             await _context.SaveChangesAsync();
-
             return CreatedAtAction("GetNegotiation", new { id = negotiation.Id }, negotiation);
         }
-
-        // DELETE: api/Negotiations/5
-        [HttpDelete("{id}")]
+       
+            [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteNegotiation(int id)
         {
             var negotiation = await _context.Negotiations.FindAsync(id);
@@ -130,5 +154,6 @@ namespace Negotiator.Controllers
         {
             return _context.Negotiations.Any(e => e.Id == id);
         }
+       
     }
 }

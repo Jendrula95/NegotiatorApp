@@ -21,14 +21,14 @@ namespace Negotiator.Controllers
             _context = context;
         }
 
-        // GET: api/Products
+       
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Products>>> GetProduct()
         {
             return await _context.Product.ToListAsync();
         }
 
-        // GET: api/Products/5
+       
         [HttpGet("{id}")]
         public async Task<ActionResult<Products>> GetProducts(int id)
         {
@@ -42,8 +42,7 @@ namespace Negotiator.Controllers
             return products;
         }
 
-        // PUT: api/Products/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProducts(int id, Products products)
         {
@@ -73,8 +72,7 @@ namespace Negotiator.Controllers
             return NoContent();
         }
 
-        // POST: api/Products
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+       
         [HttpPost]
         public async Task<ActionResult<Products>> PostProducts(Products products)
         {
@@ -84,7 +82,7 @@ namespace Negotiator.Controllers
             return CreatedAtAction("GetProducts", new { id = products.Id }, products);
         }
 
-        // DELETE: api/Products/5
+       
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProducts(int id)
         {

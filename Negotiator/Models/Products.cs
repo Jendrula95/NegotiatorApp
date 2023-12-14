@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Negotiator.Models
 {
     public class Products
     {
-        
+     
         public int Id { get; set; }
       [MaxLength(25, ErrorMessage ="Nazwa produktu nie może być dłuższa niż 25 znaków")]
         public string Name { get; set; }

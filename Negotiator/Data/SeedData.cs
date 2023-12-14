@@ -57,7 +57,9 @@ namespace Negotiator.Data
 
                 context.Negotiations.AddRange(new Negotiation
                 {
+                    ProposedPrice = 167.92M,
                     Status = NegotiationStatus.Accepted,
+                    Attempts = 2,
                  Products = new Products
                  {
                      Name = "Rower",
@@ -68,11 +70,13 @@ namespace Negotiator.Data
                     Client = new Client
                     {
                         ClientName = "Krzysiek",
-                    },
+                    }
                 },
                 new Negotiation
                 {
-                    Status = NegotiationStatus.Accepted,
+                    ProposedPrice = 16.12M,
+                    Status = NegotiationStatus.Rejected,
+                    Attempts = 1,
                     Products = new Products
                     {
                         Name = "Piłka do nogi",
@@ -84,11 +88,13 @@ namespace Negotiator.Data
                     {
                         ClientName = "Staszek",
 
-                    },
+                    }
                 },
                 new Negotiation
                 {
-                    Status = NegotiationStatus.Accepted,
+                    ProposedPrice = 17.92M,
+                    Status = NegotiationStatus.Pending,
+                    Attempts = 2,
                     Products = new Products
                     {
                         Name = "Okulary",
@@ -100,11 +106,13 @@ namespace Negotiator.Data
                     {
                         ClientName = "Julia",
                        
-                    },
+                    }
                 },
                 new Negotiation
                 {
-                    Status = NegotiationStatus.Accepted,
+                    ProposedPrice = 167.92M,
+                    Status = NegotiationStatus.Rejected,
+                    Attempts = 0,
                     Products = new Products
                     {
                         Name = "Obraz",
@@ -115,7 +123,7 @@ namespace Negotiator.Data
                     Client = new Client
                     {
                         ClientName = "Adam",
-                    },
+                    }
                 });
                 context.SaveChanges();
 

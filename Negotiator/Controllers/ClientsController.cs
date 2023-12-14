@@ -21,14 +21,13 @@ namespace Negotiator.Controllers
             _context = context;
         }
 
-        // GET: api/Clients
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Client>>> GetClient()
         {
             return await _context.Client.ToListAsync();
         }
 
-        // GET: api/Clients/5
+ 
         [HttpGet("{id}")]
         public async Task<ActionResult<Client>> GetClient(int id)
         {
@@ -42,8 +41,7 @@ namespace Negotiator.Controllers
             return client;
         }
 
-        // PUT: api/Clients/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutClient(int id, Client client)
         {
@@ -73,8 +71,6 @@ namespace Negotiator.Controllers
             return NoContent();
         }
 
-        // POST: api/Clients
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Client>> PostClient(Client client)
         {
@@ -84,7 +80,6 @@ namespace Negotiator.Controllers
             return CreatedAtAction("GetClient", new { id = client.Id }, client);
         }
 
-        // DELETE: api/Clients/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteClient(int id)
         {
@@ -94,7 +89,7 @@ namespace Negotiator.Controllers
                 return NotFound();
             }
 
-            _context.Client.Remove(client);
+            _context.Remove(client);
             await _context.SaveChangesAsync();
 
             return NoContent();

@@ -11,8 +11,8 @@ using Negotiator.Data;
 namespace Negotiator.Migrations
 {
     [DbContext(typeof(NegotiatorContext))]
-    [Migration("20231212175848_newInit")]
-    partial class newInit
+    [Migration("20231213171123_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,11 +33,7 @@ namespace Negotiator.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClientName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("NegotiationId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -58,7 +54,7 @@ namespace Negotiator.Migrations
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int>("ProductsId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("ProposedPrice")
@@ -68,6 +64,10 @@ namespace Negotiator.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("ProductsId");
 
                     b.ToTable("Negotiations");
                 });
@@ -84,20 +84,36 @@ namespace Negotiator.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Category")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Product");
+                });
+
+            modelBuilder.Entity("Negotiator.Models.Negotiation", b =>
+                {
+                    b.HasOne("Negotiator.Models.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Negotiator.Models.Products", "Products")
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

@@ -54,56 +54,87 @@ namespace Negotiator.Data
                         BasedPrice = 477.99M,
                     });
                 context.SaveChanges();
+
                 context.Negotiations.AddRange(new Negotiation
                 {
-                    ProposedPrice = 150.99M,
                     Status = NegotiationStatus.Accepted,
-                    Attempts = 2,
-                    ProductId = 1,
-                    ClientId = 1,
+                 Products = new Products
+                 {
+                     Name = "Rower",
+                     Description = "Rower górski co szybko jeździ",
+                     Category = "Sport",
+                     BasedPrice = 177.99M,
+                 },
+                    Client = new Client
+                    {
+                        ClientName = "Krzysiek",
+                    },
                 },
                 new Negotiation
                 {
-                    ProposedPrice = 10.99M,
-                    Status = NegotiationStatus.Rejected,
-                    Attempts = 0,
-                    ProductId = 2,
-                    ClientId = 2,
-                },
-                new Negotiation
-                {
-                    ProposedPrice = 15.99M,
-                    Status = NegotiationStatus.Pending,
-                    Attempts = 1,
-                    ProductId = 3,
-                    ClientId = 1,
-                },
-                new Negotiation
-                {
-                    ProposedPrice = 417.99M,
                     Status = NegotiationStatus.Accepted,
-                    Attempts = 3,
-                    ProductId = 3,
-                    ClientId = 2,
+                    Products = new Products
+                    {
+                        Name = "Piłka do nogi",
+                        Description = "Piłka do gry",
+                        Category = "Sport",
+                        BasedPrice = 17.99M,
+                    },
+                    Client = new Client
+                    {
+                        ClientName = "Staszek",
+
+                    },
+                },
+                new Negotiation
+                {
+                    Status = NegotiationStatus.Accepted,
+                    Products = new Products
+                    {
+                        Name = "Okulary",
+                        Description = "Okulary przeciwsłoneczne",
+                        Category = "Akcesoria",
+                        BasedPrice = 19.20M,
+                    },
+                    Client = new Client
+                    {
+                        ClientName = "Julia",
+                       
+                    },
+                },
+                new Negotiation
+                {
+                    Status = NegotiationStatus.Accepted,
+                    Products = new Products
+                    {
+                        Name = "Obraz",
+                        Description = "Obraz znanego artysty",
+                        Category = "Sztuka",
+                        BasedPrice = 477.99M,
+                    },
+                    Client = new Client
+                    {
+                        ClientName = "Adam",
+                    },
                 });
                 context.SaveChanges();
+
                 context.Client.AddRange(new Client
                 {
                     ClientName = "Krzysiek",
-                    NegotiationId = 1,
                 },
                 new Client
                 {
                     ClientName = "Staszek",
-                    NegotiationId = 2,
+              
                 }, new Client
                 {
                     ClientName = "Julia",
-                    NegotiationId = 3,
+                
                 }, new Client
                 {
                     ClientName = "Adam",
-                    NegotiationId = 4,
+              
                 });
                 context.SaveChanges();
             }

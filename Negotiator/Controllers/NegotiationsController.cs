@@ -25,8 +25,31 @@ namespace Negotiator.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Negotiation>>> GetNegotiations()
         {
+            var retVal = await _context.Negotiations.ToListAsync();
+
+            foreach (var elem in retVal)
+            {
+                elem.Client = new Client();
+                elem.Client = GetClient(elem.ClientId);
+                elem.Products = new Products(GetProduct(elem.ProductsId));
+            }
             return await _context.Negotiations.ToListAsync();
         }
+
+        private Products GetProduct(int ProductsId)
+        {
+            var products = _context.Product.Find(ProductsId) ;
+
+            return products;
+        }
+
+        private Client GetClient(int ClientID)
+        {
+            var client = _context.Client.Find(ClientID);
+
+            return client;
+        }
+
 
         // GET: api/Negotiations/5
         [HttpGet("{id}")]
@@ -38,7 +61,10 @@ namespace Negotiator.Controllers
             {
                 return NotFound();
             }
-
+           
+            negotiation.Products = new Products(GetProduct(negotiation.ProductsId));
+            negotiation.Client = new Client();
+            negotiation.Client = GetClient(negotiation.ClientId);
             return negotiation;
         }
 
